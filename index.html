@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happy Birthday💌</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Lato', sans-serif;
+      background: #fff0f3;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── Floating hearts background ── */
+    .hearts-bg {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .heart-float {
+      position: absolute;
+      animation: floatUp linear infinite;
+      opacity: 0;
+    }
+    @keyframes floatUp {
+      0%   { transform: translateY(110vh) rotate(-10deg); opacity: 0; }
+      10%  { opacity: 0.5; }
+      90%  { opacity: 0.3; }
+      100% { transform: translateY(-60px) rotate(10deg); opacity: 0; }
+    }
+
+    /* ── Page layout ── */
+    .page {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 48px 24px 80px;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .page.active { display: flex; }
+
+    /* ── Dot navigation ── */
+    .dot-nav {
+      display: flex;
+      gap: 8px;
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10;
+    }
+    .dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: #f0b0c0;
+      transition: background 0.3s;
+    }
+    .dot.active { background: #e75480; }
+
+    /* ── Shared button ── */
+    .nav-btn {
+      background: #e75480;
+      color: #fff;
+      border: none;
+      border-radius: 30px;
+      padding: 13px 32px;
+      font-size: 15px;
+      font-family: 'Lato', sans-serif;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(231,84,128,0.35);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .nav-btn:hover {
+      transform: scale(1.04);
+      box-shadow: 0 6px 22px rgba(231,84,128,0.5);
+    }
+
+    /* ════════════════════════════════
+       PAGE 1 — Intro
+    ════════════════════════════════ */
+    #p1 { background: linear-gradient(160deg, #fff0f3 0%, #ffe4ec 100%); }
+
+    .envelope {
+      font-size: 72px;
+      margin-bottom: 20px;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50%       { transform: scale(1.08); }
+    }
+
+    #p1 h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 34px;
+      color: #c0355a;
+      margin-bottom: 12px;
+      line-height: 1.3;
+    }
+    #p1 h1 .name {
+      font-style: italic;
+      color: #e75480;
+    }
+    #p1 > p {
+      color: #a0607a;
+      font-size: 16px;
+      font-weight: 300;
+      margin-bottom: 32px;
+      line-height: 1.6;
+      max-width: 340px;
+    }
+
+    /* ════════════════════════════════
+       PAGE 2 — Letter
+    ════════════════════════════════ */
+    #p2 { background: linear-gradient(160deg, #fce4ec 0%, #fff0f3 100%); }
+
+    #p2 h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      color: #b02050;
+      font-style: italic;
+      margin-bottom: 20px;
+    }
+
+    .letter-card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 28px;
+      max-width: 420px;
+      width: 100%;
+      box-shadow: 0 8px 32px rgba(180,60,90,0.12);
+      text-align: left;
+      line-height: 1.8;
+      color: #5c2a3a;
+      font-size: 15px;
+      border-top: 4px solid #e75480;
+      margin-bottom: 28px;
+      animation: slideUp 0.6s ease both;
+    }
+    .letter-card p { margin-bottom: 12px; }
+    .letter-card .sign {
+      font-family: 'Playfair Display', serif;
+      color: #c0355a;
+      font-size: 18px;
+      margin-top: 8px;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ════════════════════════════════
+       PAGE 3 — Reasons
+    ════════════════════════════════ */
+    #p3 { background: linear-gradient(160deg, #fff0f3 0%, #ffe4ec 100%); }
+
+    #p3 h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 26px;
+      color: #b02050;
+      margin-bottom: 24px;
+    }
+
+    .reason-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      max-width: 420px;
+      width: 100%;
+      margin-bottom: 28px;
+    }
+
+    .reason-card {
+      background: #fff;
+      border-radius: 14px;
+      padding: 18px 14px;
+      box-shadow: 0 4px 16px rgba(180,60,90,0.1);
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+      border: 2px solid transparent;
+    }
+    .reason-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(180,60,90,0.18);
+    }
+    .reason-card.liked {
+      border-color: #e75480;
+      background: #fff0f5;
+    }
+    .reason-icon { font-size: 28px; margin-bottom: 6px; }
+    .reason-card p { font-size: 13px; color: #7a3a50; }
+
+    /* ════════════════════════════════
+       PAGE 4 — Promises
+    ════════════════════════════════ */
+    #p4 { background: linear-gradient(160deg, #ffe4ec 0%, #fff0f3 100%); }
+
+    #p4 h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 26px;
+      color: #b02050;
+      margin-bottom: 8px;
+    }
+    #p4 .sub {
+      color: #a06080;
+      font-size: 14px;
+      margin-bottom: 24px;
+      font-weight: 300;
+    }
+
+    .promise-list { list-style: none; max-width: 380px; width: 100%; margin-bottom: 28px; }
+    .promise-list li {
+      background: #fff;
+      border-radius: 12px;
+      padding: 14px 18px;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 3px 12px rgba(180,60,90,0.08);
+      font-size: 14px;
+      color: #5c2a3a;
+      animation: slideUp 0.5s ease both;
+    }
+    .promise-list li:nth-child(1) { animation-delay: 0s; }
+    .promise-list li:nth-child(2) { animation-delay: 0.1s; }
+    .promise-list li:nth-child(3) { animation-delay: 0.2s; }
+    .promise-list li:nth-child(4) { animation-delay: 0.3s; }
+    .check { font-size: 20px; }
+
+    /* ════════════════════════════════
+       PAGE 5 — Forgive me?
+    ════════════════════════════════ */
+    #p5 { background: linear-gradient(160deg, #fff0f3 0%, #ffe4ec 100%); }
+
+    #p5 h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      color: #b02050;
+      margin-bottom: 12px;
+    }
+    #p5 > p {
+      color: #a06080;
+      font-size: 15px;
+      margin-bottom: 32px;
+      max-width: 320px;
+      font-weight: 300;
+      line-height: 1.7;
+    }
+
+    .btn-group { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; }
+
+    .btn-yes {
+      background: #e75480;
+      color: #fff;
+      border: none;
+      border-radius: 30px;
+      padding: 14px 36px;
+      font-size: 16px;
+      font-family: 'Playfair Display', serif;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(231,84,128,0.35);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .btn-yes:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 24px rgba(231,84,128,0.5);
+    }
+
+    .btn-no {
+      background: transparent;
+      color: #c08090;
+      border: 1.5px solid #e0a0b0;
+      border-radius: 30px;
+      padding: 14px 36px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .no-msg {
+      font-size: 12px;
+      color: #c0a0a8;
+      margin-top: 12px;
+      min-height: 18px;
+    }
+
+    /* ════════════════════════════════
+       PAGE 6 — Forgiven!
+    ════════════════════════════════ */
+    #p6 { background: linear-gradient(160deg, #fff0f3 0%, #ffe4ec 100%); }
+
+    .confetti-area {
+      font-size: 48px;
+      margin-bottom: 10px;
+      animation: popIn 0.8s ease;
+    }
+    .fireworks {
+      font-size: 54px;
+      margin-bottom: 16px;
+      animation: popIn 0.8s ease 0.2s both;
+    }
+    @keyframes popIn {
+      from { transform: scale(0.4) rotate(-20deg); opacity: 0; }
+      to   { transform: scale(1) rotate(0); opacity: 1; }
+    }
+
+    #p6 h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 34px;
+      color: #c0355a;
+      margin-bottom: 12px;
+    }
+    #p6 > p {
+      color: #a06080;
+      font-size: 15px;
+      max-width: 320px;
+      margin-bottom: 28px;
+      line-height: 1.7;
+      font-weight: 300;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Floating hearts -->
+  <div class="hearts-bg" id="hearts-bg"></div>
+
+  <!-- ══ PAGE 1: Intro ══ -->
+  <div class="page active" id="p1">
+    <div class="envelope">💌</div>
+    <!-- ✏️ EDIT: Change the name below -->
+    <h1>I'm truly sorry,<br><span class="name">my Nabu</span> 🥺</h1>
+    <!-- ✏️ EDIT: Change the subtitle below -->
+    <p>There's something I need to say — and I mean every word of it. Will you hear me out?</p>
+    <button class="nav-btn" onclick="goTo(2)">Open the letter 💕</button>
+  </div>
+
+  <!-- ══ PAGE 2: Letter ══ -->
+  <div class="page" id="p2">
+    <!-- ✏️ EDIT: Change the greeting -->
+    <h2>Dear Nabu,</h2>
+    <div class="letter-card">
+      <!-- ✏️ EDIT: Write your own letter here -->
+      <p>Ami jani ami tomake kosto diye felesi ojante. Ami asole khubi sorry and sokale ghum theke uthe tmr kotha mone porse first e and sathe sathe tmke msz disi jeita alaways kori tmi jano sona.</p>
+      <p>Asole ami khubi lojjito ei bepar ta niye j tmi text diso and ami ghumiye gesi asole ami nijei jani na kokhn ghumai gesi till sokale jokhn uthi literally phone amr hatei silo.</p>
+      <p>I'm not making excuses. I'm just asking for the chance to do better — because you matter to me more than I sometimes show.</p>
+      <!-- ✏️ EDIT: Change the sign-off -->
+      <p class="sign">With all my heart, 💗</p>
+    </div>
+    <button class="nav-btn" onclick="goTo(3)">Continue →</button>
+  </div>
+
+  <!-- ══ PAGE 3: Reasons ══ -->
+  <div class="page" id="p3">
+    <h2>Hello Stranger!!</h2>
+    <div class="reason-grid">
+      <!-- ✏️ EDIT: Change icons and reasons below (tap to highlight) -->
+      <div class="reason-card" onclick="toggleLike(this)">
+        <div class="reason-icon">😊</div>
+        <p>Tmr khusi hou amr valo lage onk</p>
+      </div>
+      <div class="reason-card" onclick="toggleLike(this)">
+        <div class="reason-icon">🧠</div>
+        <p>Tmi honest aso sometimes ektu dustumi koro jodio</p>
+      </div>
+      <div class="reason-card" onclick="toggleLike(this)">
+        <div class="reason-icon">💪</div>
+        <p>Soft Spoken </p>
+      </div>
+      <div class="reason-card" onclick="toggleLike(this)">
+        <div class="reason-icon">🌙</div>
+        <p>Lulul lulu lalala la...</p>
+      </div>
+    </div>
+    <button class="nav-btn" onclick="goTo(4)">My promises →</button>
+  </div>
+
+  <!-- ══ PAGE 4: Promises ══ -->
+  <div class="page" id="p4">
+    <!-- ✏️ EDIT: Change the name below -->
+    <h2>So will you continue </h2>
+    <p class="sub">From this moment forward</p>
+    <ul class="promise-list">
+      <!-- ✏️ EDIT: Change the promises below -->
+      <li><span class="check">💬</span> To listen more and assume less</li>
+      <li><span class="check">🤝</span> To choose kindness over being right</li>
+      <li><span class="check">🌹</span> To show you every day how much you mean</li>
+      <li><span class="check">💗</span> To never take your love for granted</li>
+    </ul>
+    <button class="nav-btn" onclick="goTo(5)">One last thing →</button>
+  </div>
+
+  <!-- ══ PAGE 5: Forgive me? ══ -->
+  <div class="page" id="p5">
+    <!-- ✏️ EDIT: Change the name below -->
+    <h2>Just left if you feel like. </h2>
+    <p>I know words aren't magic. But it's real — and so is everything I feel for you.</p>
+    <div class="btn-group">
+      <button class="btn-yes" onclick="goTo(6)">Yes</button>
+      <button class="btn-no" id="noBtn" onclick="moveNoBtn()">Not yet...</button>
+    </div>
+    <p class="no-msg" id="noMsg"></p>
+  </div>
+
+  <!-- ══ PAGE 6: Forgiven! ══ -->
+  <div class="page" id="p6">
+    <div class="confetti-area">🎊</div>
+    <div class="fireworks">💖</div>
+    <!-- ✏️ EDIT: Change the name below -->
+    <h2>Thanks 🥺</h2>
+    <p>Be the person you like for the person you want to love.</p>
+    <button class="nav-btn" onclick="goTo(1)">From the beginning 🔁</button>
+  </div>
+
+  <!-- Dot nav (auto-generated) -->
+  <div class="dot-nav" id="dotNav"></div>
+
+  <script>
+    const TOTAL_PAGES = 6;
+    let currentPage = 1;
+    let noClicks = 0;
+
+    // Build dots
+    const dotNav = document.getElementById('dotNav');
+    for (let i = 0; i < TOTAL_PAGES; i++) {
+      const d = document.createElement('div');
+      d.className = 'dot' + (i === 0 ? ' active' : '');
+      dotNav.appendChild(d);
+    }
+
+    function goTo(n) {
+      document.getElementById('p' + currentPage).classList.remove('active');
+      document.getElementById('p' + n).classList.add('active');
+      currentPage = n;
+      document.querySelectorAll('.dot').forEach((d, i) => {
+        d.classList.toggle('active', i === n - 1);
+      });
+      // Reset no-button position when revisiting page 5
+      if (n === 5) {
+        noClicks = 0;
+        document.getElementById('noBtn').style.transform = '';
+        document.getElementById('noBtn').style.opacity = '1';
+        document.getElementById('noBtn').style.pointerEvents = 'auto';
+        document.getElementById('noMsg').textContent = '';
+      }
+    }
+
+    function toggleLike(el) {
+      el.classList.toggle('liked');
+    }
+
+    // ✏️ EDIT: Customize the "No" button messages below
+    const noMessages = [
+      "Are you sure, Nabu? 🥺",
+      "Please reconsider...",
+      "I'll keep waiting 💗",
+      "You're making me cry 😢",
+      "One more chance? 🙏",
+      "Okay... I understand 😔"
+    ];
+
+    function moveNoBtn() {
+      noClicks++;
+      const btn = document.getElementById('noBtn');
+      const msg = document.getElementById('noMsg');
+      msg.textContent = noMessages[Math.min(noClicks - 1, noMessages.length - 1)];
+      const rx = (Math.random() - 0.5) * 280;
+      const ry = (Math.random() - 0.5) * 50;
+      btn.style.transform = `translate(${rx}px, ${ry}px)`;
+      if (noClicks >= noMessages.length) {
+        btn.style.opacity = '0.25';
+        btn.style.pointerEvents = 'none';
+        msg.textContent = "Okay... I'll wait as long as it takes 💔";
+      }
+    }
+
+    // Floating hearts animation
+    const heartEmojis = ['❤️','💕','💗','💖','🌸','✨','🌹','💝'];
+    function createHeart() {
+      const bg = document.getElementById('hearts-bg');
+      const el = document.createElement('div');
+      el.className = 'heart-float';
+      el.textContent = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
+      el.style.left = Math.random() * 100 + '%';
+      el.style.fontSize = (12 + Math.random() * 18) + 'px';
+      el.style.animationDuration = (7 + Math.random() * 6) + 's';
+      el.style.animationDelay = (Math.random() * 3) + 's';
+      bg.appendChild(el);
+      setTimeout(() => el.remove(), 16000);
+    }
+    setInterval(createHeart, 900);
+    for (let i = 0; i < 8; i++) setTimeout(createHeart, i * 250);
+  </script>
+</body>
+</html>
